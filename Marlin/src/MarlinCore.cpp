@@ -57,6 +57,10 @@
 #include "gcode/parser.h"
 #include "gcode/queue.h"
 
+#ifdef KILL_AS_RESET
+  #include "softreset/softreset.h"
+#endif
+
 #if ENABLED(TOUCH_BUTTONS)
   #include "feature/touch/xpt2046.h"
 #endif
@@ -553,6 +557,10 @@ inline void manage_inactivity(const bool ignore_stepper_queue=false) {
     // KILL the machine
     // ----------------------------------------------------------------
     if (killCount >= KILL_DELAY) {
+      #ifdef KILL_AS_RESET
+        soft_restart();
+      #endif
+
       SERIAL_ERROR_MSG(STR_KILL_BUTTON);
       kill();
     }
