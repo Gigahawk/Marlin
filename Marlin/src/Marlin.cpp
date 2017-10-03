@@ -50,6 +50,10 @@
 #include "gcode/parser.h"
 #include "gcode/queue.h"
 
+#ifdef KILL_AS_RESET
+  #include "softreset/softreset.h"
+#endif  
+
 #if HAS_BUZZER && DISABLED(LCD_USE_I2C_BUZZER)
   #include "libs/buzzer.h"
 #endif
@@ -423,6 +427,10 @@ void manage_inactivity(bool ignore_stepper_queue/*=false*/) {
     // KILL the machine
     // ----------------------------------------------------------------
     if (killCount >= KILL_DELAY) {
+      #ifdef KILL_AS_RESET
+        soft_restart();
+      #endif
+
       SERIAL_ERROR_START();
       SERIAL_ERRORLNPGM(MSG_KILL_BUTTON);
       kill(PSTR(MSG_KILLED));
