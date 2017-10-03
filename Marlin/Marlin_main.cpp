@@ -258,6 +258,10 @@
 #include "types.h"
 #include "gcode.h"
 
+#ifdef KILL_AS_RESET
+  #include "SoftReset.h"
+#endif  
+
 #if HAS_ABL
   #include "vector_3.h"
   #if ENABLED(AUTO_BED_LEVELING_LINEAR)
@@ -13094,11 +13098,15 @@ void manage_inactivity(bool ignore_stepper_queue/*=false*/) {
     // KILL the machine
     // ----------------------------------------------------------------
     if (killCount >= KILL_DELAY) {
+      #ifdef KILL_AS_RESET
+        soft_restart();
+      #endif
+      
       SERIAL_ERROR_START();
       SERIAL_ERRORLNPGM(MSG_KILL_BUTTON);
       kill(PSTR(MSG_KILLED));
     }
-  #endif
+  #endif //HAS_KILL
 
   #if HAS_HOME
     // Check to see if we have to home, use poor man's debouncer
