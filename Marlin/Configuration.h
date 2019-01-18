@@ -485,9 +485,9 @@
 
   // If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
 
-  #define  DEFAULT_Kp 34.89
-  #define  DEFAULT_Ki 3.61
-  #define  DEFAULT_Kd 84.31
+  #define  DEFAULT_Kp 22.55
+  #define  DEFAULT_Ki 1.36
+  #define  DEFAULT_Kd 93.30
 
   // Ultimaker
   //#define  DEFAULT_Kp 22.2
